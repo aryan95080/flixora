@@ -3,22 +3,22 @@
 // require("dotenv").config({path: "./.env"});
 
 import dotenv from "dotenv";
-import express from "express";
+import { app } from "./app.js";      // ✅ use the app that has all your routes
 import connectDB from "./db/index.js";
 
-dotenv.config({ path: "./env" });
-const app = express();
+dotenv.config({ path: "./.env" });   // ✅ usually the file name is .env (not env)
 
-
+// Connect to database and then start the server
 connectDB()
-.then(()=>{
-  app.listen(process.env.PORT||8000, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
+  .then(() => {
+    const PORT = process.env.PORT || 4000;
+    app.listen(PORT, () => {
+      console.log(`✅ Server is running on port ${PORT}`);
+    });
   })
-})
-.catch((err)=>{
-  console.log("MONGO db connection failed !! ", err);
-});
+  .catch((err) => {
+    console.error("❌ MONGO DB connection failed!!", err);
+  });
 
 
 
